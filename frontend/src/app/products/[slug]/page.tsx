@@ -273,6 +273,7 @@ export default async function ProductPage({
           <AddToCart
             productId={product.id}
             productName={product.name}
+            productSlug={product.slug}
             price={parseFloat(product.current_price)}
             inStock={product.in_stock}
             image={product.images.find((img) => img.is_primary)?.image}

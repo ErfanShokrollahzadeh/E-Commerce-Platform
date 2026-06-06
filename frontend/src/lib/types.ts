@@ -114,3 +114,68 @@ export interface PaginatedResponse<T> {
   previous: string | null;
   results: T[];
 }
+
+// =============================================================================
+// CART — Zustand store types
+// =============================================================================
+
+export interface CartItem {
+  productId: number;
+  name: string;
+  slug: string;
+  price: number;
+  quantity: number;
+  image?: string;
+}
+
+// =============================================================================
+// CHECKOUT — Multi-step form types
+// =============================================================================
+
+export interface CheckoutFormData {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  postal_code: string;
+}
+
+export interface ShippingMethod {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  estimatedDays: string;
+}
+
+// =============================================================================
+// ORDER RESPONSE — from OrderDetailSerializer
+// =============================================================================
+
+export interface OrderItemResponse {
+  id: number;
+  product: number | null;
+  product_name: string;
+  price: string;
+  quantity: number;
+  total_cost: string;
+}
+
+export interface OrderResponse {
+  id: number;
+  user: string | null;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  postal_code: string;
+  total_price: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  items: OrderItemResponse[];
+}

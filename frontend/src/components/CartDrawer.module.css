@@ -1,0 +1,356 @@
+/* =============================================================================
+ * Cart Drawer — Slide-in Sidebar from Right
+ * ============================================================================= */
+
+/* ─── Overlay ─── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.overlayVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ─── Drawer Panel ─── */
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 210;
+  width: 420px;
+  max-width: 90vw;
+  background: linear-gradient(180deg, #13131a 0%, #1a1a2e 100%);
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.4);
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+/* ─── Drawer Header ─── */
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.drawerTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f0f0f8;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.drawerCount {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #6b7084;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  color: #8b8fa3;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e8e8f0;
+}
+
+/* ─── Empty State ─── */
+
+.emptyState {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: #4b4d5e;
+  padding: 2rem;
+  text-align: center;
+}
+
+.emptyState p {
+  font-size: 1rem;
+  color: #6b7084;
+}
+
+.shopLink {
+  margin-top: 8px;
+  padding: 10px 24px;
+  border-radius: 10px;
+  background: rgba(167, 139, 250, 0.1);
+  color: #a78bfa;
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.shopLink:hover {
+  background: rgba(167, 139, 250, 0.18);
+}
+
+/* ─── Item List ─── */
+
+.itemList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: border-color 0.2s;
+}
+
+.item:hover {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ─── Item Image ─── */
+
+.itemImage {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  flex-shrink: 0;
+}
+
+.img {
+  object-fit: cover;
+}
+
+.imgPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #3d3f52;
+}
+
+/* ─── Item Details ─── */
+
+.itemDetails {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.itemName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #e8e8f0;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.2s;
+}
+
+.itemName:hover {
+  color: #a78bfa;
+}
+
+.itemPrice {
+  font-size: 0.75rem;
+  color: #6b7084;
+}
+
+/* ─── Quantity Controls ─── */
+
+.qtyRow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-top: 4px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  width: fit-content;
+}
+
+.qtyBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  color: #8b8fa3;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
+.qtyBtn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #e8e8f0;
+}
+
+.qtyValue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #e8e8f0;
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Item End (line total + remove) ─── */
+
+.itemEnd {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.lineTotal {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #e8e8f0;
+}
+
+.removeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  color: #4b4d5e;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.removeBtn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* ─── Footer ─── */
+
+.drawerFooter {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.totalRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.totalLabel {
+  font-size: 0.9rem;
+  color: #8b8fa3;
+}
+
+.totalValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f0f0f8;
+}
+
+.checkoutBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: white;
+  background: linear-gradient(135deg, #a78bfa 0%, #818cf8 50%, #6366f1 100%);
+  box-shadow:
+    0 4px 16px rgba(167, 139, 250, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.checkoutBtn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 24px rgba(167, 139, 250, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 480px) {
+  .drawer {
+    width: 100vw;
+    max-width: 100vw;
+  }
+
+  .itemList {
+    padding: 12px 16px;
+  }
+
+  .drawerFooter {
+    padding: 16px;
+  }
+}

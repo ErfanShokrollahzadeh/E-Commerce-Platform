@@ -12,6 +12,8 @@ import type {
   Product,
   ProductListItem,
   PaginatedResponse,
+  CheckoutFormData,
+  OrderResponse,
 } from "./types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
@@ -112,6 +114,20 @@ export const ordersApi = {
   /** Get order by ID */
   get: (orderId: number) => apiFetch(`/orders/${orderId}/`),
 };
+
+/**
+ * Typed checkout function — used by the checkout page.
+ * Sends customer details to Django which reads the Redis cart,
+ * validates stock, creates the order, and returns the full order.
+ */
+export async function createOrder(
+  formData: CheckoutFormData
+): Promise<OrderResponse> {
+  return apiFetch<OrderResponse>("/orders/", {
+    method: "POST",
+    body: JSON.stringify(formData),
+  });
+}
 
 // =============================================================================
 // SERVER-SIDE ISR FETCH FUNCTIONS

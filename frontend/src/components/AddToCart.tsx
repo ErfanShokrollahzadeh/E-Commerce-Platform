@@ -3,7 +3,7 @@
  *
  * This MUST be a client component because:
  *   1. It uses React state (quantity selector)
- *   2. It uses CartContext (useCart hook)
+ *   2. It uses Zustand cart store
  *   3. It handles user interactions (click events)
  *
  * The parent product page is a Server Component (required for ISR).
@@ -13,12 +13,13 @@
 "use client";
 
 import { useState } from "react";
-import { useCart } from "@/context/CartContext";
+import { useCartStore } from "@/store/useCartStore";
 import styles from "./AddToCart.module.css";
 
 interface AddToCartProps {
   productId: number;
   productName: string;
+  productSlug: string;
   price: number;
   inStock: boolean;
   image?: string;
@@ -27,28 +28,29 @@ interface AddToCartProps {
 export default function AddToCart({
   productId,
   productName,
+  productSlug,
   price,
   inStock,
   image,
 }: AddToCartProps) {
-  const { dispatch } = useCart();
+  const addItem = useCartStore((s) => s.addItem);
+  const openDrawer = useCartStore((s) => s.openDrawer);
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
 
   const handleAddToCart = () => {
-    dispatch({
-      type: "ADD_ITEM",
-      payload: {
-        productId,
-        name: productName,
-        price,
-        quantity,
-        image,
-      },
+    addItem({
+      productId,
+      name: productName,
+      slug: productSlug,
+      price,
+      quantity,
+      image,
     });
 
-    // Show success feedback
+    // Show success feedback and open cart drawer
     setIsAdded(true);
+    openDrawer();
     setTimeout(() => setIsAdded(false), 2000);
   };
 
