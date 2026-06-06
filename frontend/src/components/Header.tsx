@@ -46,6 +46,12 @@ export default function Header() {
             <Link href="/products" className={styles.navLink} id="nav-products">
               Products
             </Link>
+            <Link href="/about" className={styles.navLink} id="nav-about">
+              About Us
+            </Link>
+            <Link href="/contact" className={styles.navLink} id="nav-contact">
+              Contact Us
+            </Link>
           </nav>
 
           {/* Cart Button */}
