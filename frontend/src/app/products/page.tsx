@@ -15,6 +15,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { fetchProducts } from "@/lib/api";
+import { getImageUrl } from "@/lib/utils";
 import type { ProductListItem } from "@/lib/types";
 import styles from "./page.module.css";
 
@@ -43,7 +44,7 @@ function formatPrice(price: string): string {
 // PRODUCT CARD COMPONENT
 // ---------------------------------------------------------------------------
 function ProductCard({ product }: { product: ProductListItem }) {
-  const imageUrl = product.primary_image?.image || null;
+  const imageUrl = product.primary_image?.image ? getImageUrl(product.primary_image.image) : null;
   const hasDiscount = product.discount_price !== null && product.discount_percentage > 0;
 
   return (

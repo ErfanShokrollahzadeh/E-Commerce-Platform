@@ -31,6 +31,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { fetchProductBySlug, fetchProductSlugs } from "@/lib/api";
+import { getImageUrl } from "@/lib/utils";
 import type { Product, ProductImage as ProductImageType } from "@/lib/types";
 import AddToCart from "@/components/AddToCart";
 import styles from "./page.module.css";
@@ -79,7 +80,7 @@ export async function generateMetadata({
         description: product.description.slice(0, 200),
         images: product.images
           .filter((img) => img.image)
-          .map((img) => ({ url: img.image })),
+          .map((img) => ({ url: getImageUrl(img.image) })),
       },
     };
   } catch {
@@ -108,7 +109,7 @@ function ImageGallery({ images, productName }: { images: ProductImageType[]; pro
       <div className={styles.mainImage}>
         {primaryImage ? (
           <Image
-            src={primaryImage.image}
+            src={getImageUrl(primaryImage.image)}
             alt={primaryImage.alt_text || productName}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
@@ -128,11 +129,11 @@ function ImageGallery({ images, productName }: { images: ProductImageType[]; pro
       </div>
       {otherImages.length > 0 && (
         <div className={styles.thumbnails}>
-          {otherImages.slice(0, 4).map((img) => (
+          {otherImages.slice(0, 4).map((img, index) => (
             <div key={img.id} className={styles.thumbnail}>
               <Image
-                src={img.image}
-                alt={img.alt_text || productName}
+                src={getImageUrl(img.image)}
+                alt={img.alt_text || `Product view ${index + 2}`}
                 fill
                 sizes="100px"
                 className={styles.thumbnailImage}
@@ -276,7 +277,7 @@ export default async function ProductPage({
             productSlug={product.slug}
             price={parseFloat(product.current_price)}
             inStock={product.in_stock}
-            image={product.images.find((img) => img.is_primary)?.image}
+            image={product.images.find((img) => img.is_primary)?.image ? getImageUrl(product.images.find((img) => img.is_primary)!.image) : undefined}
           />
 
           {/* Description */}

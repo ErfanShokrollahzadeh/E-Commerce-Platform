@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   // IMAGE OPTIMIZATION — allow product images from Django backend
   // ---------------------------------------------------------------------------
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "http",

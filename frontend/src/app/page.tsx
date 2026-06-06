@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { fetchProducts } from "@/lib/api";
+import { getImageUrl } from "@/lib/utils";
 import styles from "./page.module.css";
 
 export default async function Home() {
@@ -65,7 +66,7 @@ export default async function Home() {
         ) : (
           <div className={styles.productGrid}>
             {products.map((product) => {
-              const primaryImage = product.primary_image?.image;
+              const primaryImage = product.primary_image?.image ? getImageUrl(product.primary_image.image) : null;
               
               return (
                 <Link

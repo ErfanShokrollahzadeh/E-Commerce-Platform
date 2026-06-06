@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCartStore } from "@/store/useCartStore";
+import { getImageUrl } from "@/lib/utils";
 import styles from "./CartDrawer.module.css";
 
 function formatPrice(amount: number): string {
@@ -109,7 +110,7 @@ export default function CartDrawer() {
                   <div className={styles.itemImage}>
                     {item.image ? (
                       <Image
-                        src={item.image}
+                        src={getImageUrl(item.image)}
                         alt={item.name}
                         fill
                         sizes="64px"

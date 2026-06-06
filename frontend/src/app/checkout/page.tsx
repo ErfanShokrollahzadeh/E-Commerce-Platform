@@ -16,6 +16,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCartStore } from "@/store/useCartStore";
 import { createOrder } from "@/lib/api";
+import { getImageUrl } from "@/lib/utils";
 import type { CheckoutFormData, ShippingMethod } from "@/lib/types";
 import styles from "./page.module.css";
 
@@ -514,7 +515,7 @@ export default function CheckoutPage() {
                 <div className={styles.summaryItemImage}>
                   {item.image ? (
                     <Image
-                      src={item.image}
+                      src={getImageUrl(item.image)}
                       alt={item.name}
                       fill
                       sizes="48px"
