@@ -1,0 +1,390 @@
+/* =============================================================================
+ * Product Detail Page — Premium Layout
+ * ============================================================================= */
+
+.page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0f12 0%, #1a1a2e 50%, #16213e 100%);
+  color: #e8e8f0;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  padding: 0 2rem 4rem;
+}
+
+/* ─── Breadcrumbs ─── */
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2rem 0 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-size: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.breadcrumbLink {
+  color: #6b7084;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumbLink:hover {
+  color: #a78bfa;
+}
+
+.breadcrumbSep {
+  color: #3d3f52;
+}
+
+.breadcrumbCurrent {
+  color: #8b8fa3;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─── Main Content Grid ─── */
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+/* ─── Image Gallery ─── */
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: sticky;
+  top: 2rem;
+}
+
+.mainImage {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.heroImage {
+  object-fit: cover;
+}
+
+.noImage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 12px;
+  color: #3d3f52;
+  font-size: 0.875rem;
+}
+
+.thumbnails {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.thumbnail {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.thumbnail:hover {
+  border-color: rgba(167, 139, 250, 0.3);
+}
+
+.thumbnailImage {
+  object-fit: cover;
+}
+
+/* ─── Product Info ─── */
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.brandLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brandLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #a78bfa;
+}
+
+.sku {
+  font-size: 0.7rem;
+  color: #4b4d5e;
+  font-family: var(--font-geist-mono), monospace;
+}
+
+.productTitle {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  color: #f0f0f8;
+}
+
+/* ─── Pricing ─── */
+
+.priceBlock {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.regularPrice {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f0f0f8;
+}
+
+.salePrice {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #34d399;
+}
+
+.strikePrice {
+  font-size: 1.15rem;
+  color: #4b4d5e;
+  text-decoration: line-through;
+}
+
+.saveBadge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);
+}
+
+/* ─── Stock Status ─── */
+
+.stockStatus {
+  display: flex;
+  align-items: center;
+}
+
+.inStock,
+.outOfStock {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.inStock {
+  color: #34d399;
+}
+
+.outOfStock {
+  color: #ef4444;
+}
+
+.stockDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ─── Variants ─── */
+
+.variants {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionTitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #8b8fa3;
+}
+
+.variantList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.variantChip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.85rem;
+  transition: border-color 0.2s;
+}
+
+.variantChip:hover {
+  border-color: rgba(167, 139, 250, 0.2);
+}
+
+.variantName {
+  color: #e8e8f0;
+  font-weight: 500;
+}
+
+.variantPrice {
+  color: #6b7084;
+  font-size: 0.8rem;
+}
+
+.variantOos {
+  font-size: 0.65rem;
+  color: #ef4444;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* ─── Tags ─── */
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(167, 139, 250, 0.1);
+  color: #a78bfa;
+  border: 1px solid rgba(167, 139, 250, 0.15);
+}
+
+/* ─── Description ─── */
+
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.descriptionText {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #8b8fa3;
+}
+
+/* ─── Meta Info ─── */
+
+.metaInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metaLabel {
+  font-size: 0.8rem;
+  color: #5b5e72;
+}
+
+.metaValue {
+  font-size: 0.85rem;
+  color: #a78bfa;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.metaValue:hover {
+  color: #c4b5fd;
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 900px) {
+  .page {
+    padding: 0 1rem 3rem;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .gallery {
+    position: static;
+  }
+
+  .mainImage {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 0 0.75rem 2rem;
+  }
+
+  .thumbnails {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .priceBlock {
+    gap: 8px;
+  }
+
+  .regularPrice,
+  .salePrice {
+    font-size: 1.6rem;
+  }
+}

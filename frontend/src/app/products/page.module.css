@@ -1,0 +1,261 @@
+/* =============================================================================
+ * Products Listing Page — Premium Card Grid
+ * ============================================================================= */
+
+.page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0f12 0%, #1a1a2e 50%, #16213e 100%);
+  color: #e8e8f0;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+}
+
+/* ─── Header ─── */
+
+.header {
+  padding: 2rem 2rem 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: #8b8fa3;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  margin-bottom: 1.5rem;
+}
+
+.backLink:hover {
+  color: #a78bfa;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #6b7084;
+  font-weight: 400;
+}
+
+/* ─── Product Grid ─── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ─── Product Card ─── */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(167, 139, 250, 0.15);
+  border-color: rgba(167, 139, 250, 0.2);
+}
+
+/* ─── Image ─── */
+
+.imageWrapper {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.card:hover .image {
+  transform: scale(1.05);
+}
+
+.imagePlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #3d3f52;
+}
+
+/* ─── Badges ─── */
+
+.discountBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(244, 63, 94, 0.35);
+}
+
+.outOfStockBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(15, 15, 18, 0.85);
+  backdrop-filter: blur(8px);
+  color: #ef4444;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ─── Card Body ─── */
+
+.cardBody {
+  padding: 16px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.brand {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #a78bfa;
+}
+
+.productName {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #e8e8f0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  margin: 2px 0;
+}
+
+.categoryTag {
+  font-size: 0.75rem;
+  color: #5b5e72;
+  margin-bottom: 8px;
+}
+
+/* ─── Pricing ─── */
+
+.pricing {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #e8e8f0;
+}
+
+.currentPrice {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #34d399;
+}
+
+.originalPrice {
+  font-size: 0.85rem;
+  color: #4b4d5e;
+  text-decoration: line-through;
+}
+
+/* ─── Empty State ─── */
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 6rem 2rem;
+  text-align: center;
+  color: #4b4d5e;
+}
+
+.emptyState h2 {
+  font-size: 1.5rem;
+  color: #8b8fa3;
+}
+
+.emptyState p {
+  font-size: 1rem;
+  max-width: 400px;
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1.5rem 1rem 0.5rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    padding: 1.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 1rem;
+  }
+}

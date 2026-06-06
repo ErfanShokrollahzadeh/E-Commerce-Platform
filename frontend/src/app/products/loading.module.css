@@ -1,0 +1,121 @@
+/* =============================================================================
+ * Products Listing — Skeleton Loading State
+ * ============================================================================= */
+
+.page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0f12 0%, #1a1a2e 50%, #16213e 100%);
+  color: #e8e8f0;
+}
+
+.header {
+  padding: 2rem 2rem 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 4rem;
+}
+
+.titleSkeleton {
+  width: 320px;
+  height: 42px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.subtitleSkeleton {
+  width: 160px;
+  height: 20px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  animation: shimmer 1.5s ease-in-out 0.1s infinite;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.card {
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.imageSkeleton {
+  aspect-ratio: 4 / 3;
+  background: rgba(255, 255, 255, 0.03);
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.cardBody {
+  padding: 16px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.brandSkeleton {
+  width: 60px;
+  height: 12px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  animation: shimmer 1.5s ease-in-out 0.2s infinite;
+}
+
+.nameSkeleton {
+  width: 85%;
+  height: 18px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  animation: shimmer 1.5s ease-in-out 0.3s infinite;
+}
+
+.categorySkeleton {
+  width: 40%;
+  height: 12px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  animation: shimmer 1.5s ease-in-out 0.4s infinite;
+}
+
+.priceSkeleton {
+  width: 90px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  margin-top: 8px;
+  animation: shimmer 1.5s ease-in-out 0.5s infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    padding: 1.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+}

@@ -1,7 +1,28 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // ---------------------------------------------------------------------------
+  // IMAGE OPTIMIZATION — allow product images from Django backend
+  // ---------------------------------------------------------------------------
+  images: {
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "8000",
+        pathname: "/media/**",
+      },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // ISR DEBUGGING — log fetch cache hits/misses in development
+  // ---------------------------------------------------------------------------
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
 };
 
 export default nextConfig;
