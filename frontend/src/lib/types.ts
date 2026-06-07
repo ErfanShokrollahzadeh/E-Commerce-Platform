@@ -179,3 +179,49 @@ export interface OrderResponse {
   updated_at: string;
   items: OrderItemResponse[];
 }
+
+// =============================================================================
+// AUTH — User & Token types
+// =============================================================================
+
+export interface User {
+  id: number;
+  email: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  full_name: string;
+  phone: string;
+  avatar: string | null;
+  date_of_birth: string | null;
+  address: string;
+  city: string;
+  postal_code: string;
+  date_joined: string;
+}
+
+export interface AuthTokens {
+  access: string;
+  refresh: string;
+}
+
+export interface AuthResponse {
+  user: User;
+  tokens: AuthTokens;
+  message: string;
+}
+
+export interface RegisterFormData {
+  email: string;
+  username?: string;
+  first_name: string;
+  last_name: string;
+  password: string;
+  password_confirm: string;
+}
+
+export interface LoginFormData {
+  email: string;
+  password: string;
+}
+

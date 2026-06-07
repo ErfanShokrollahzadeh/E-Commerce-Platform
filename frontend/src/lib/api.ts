@@ -3,7 +3,7 @@
  * Centralizes all API calls to the backend.
  *
  * Two modes:
- *   1. Client-side (productsApi, cartApi, ordersApi) — used in client components
+ *   1. Client-side (productsApi, cartApi, ordersApi, authApi) — used in client components
  *   2. Server-side (fetchProducts, fetchProductBySlug, etc.) — used in ISR/SSR
  *      pages with Next.js extended fetch for caching & revalidation
  */
@@ -14,6 +14,10 @@ import type {
   PaginatedResponse,
   CheckoutFormData,
   OrderResponse,
+  AuthResponse,
+  RegisterFormData,
+  LoginFormData,
+  User,
 } from "./types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
@@ -28,30 +32,202 @@ const API_INTERNAL_URL =
   process.env.NEXT_PUBLIC_API_URL ||
   "http://localhost:8000/api";
 
+// =============================================================================
+// TOKEN MANAGEMENT — Read from localStorage (client-side only)
+// =============================================================================
+
+function getAccessToken(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem("ecommerce-auth");
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed?.state?.accessToken || null;
+  } catch {
+    return null;
+  }
+}
+
+function getRefreshToken(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem("ecommerce-auth");
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed?.state?.refreshToken || null;
+  } catch {
+    return null;
+  }
+}
+
+function updateTokensInStorage(access: string, refresh: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    const raw = localStorage.getItem("ecommerce-auth");
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    parsed.state.accessToken = access;
+    parsed.state.refreshToken = refresh;
+    localStorage.setItem("ecommerce-auth", JSON.stringify(parsed));
+  } catch {
+    // Silently fail
+  }
+}
+
+function clearAuthStorage(): void {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem("ecommerce-auth");
+}
+
+// =============================================================================
+// TOKEN REFRESH — Auto-refresh on 401
+// =============================================================================
+
+let isRefreshing = false;
+let refreshPromise: Promise<string | null> | null = null;
+
+async function refreshAccessToken(): Promise<string | null> {
+  const refresh = getRefreshToken();
+  if (!refresh) return null;
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/token/refresh/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh }),
+    });
+
+    if (!response.ok) {
+      clearAuthStorage();
+      return null;
+    }
+
+    const data = await response.json();
+    updateTokensInStorage(data.access, data.refresh || refresh);
+    return data.access;
+  } catch {
+    clearAuthStorage();
+    return null;
+  }
+}
+
 /**
- * Generic fetch wrapper with error handling.
+ * Generic fetch wrapper with error handling and JWT auth.
+ * Automatically attaches Bearer token and retries once on 401.
  */
 async function apiFetch<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
+  skipAuth = false
 ): Promise<T> {
   const url = `${API_BASE_URL}${endpoint}`;
 
-  const response = await fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...(options.headers as Record<string, string>),
+  };
+
+  // Attach auth token if available
+  if (!skipAuth) {
+    const token = getAccessToken();
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+  }
+
+  let response = await fetch(url, {
     ...options,
+    headers,
   });
+
+  // Auto-refresh on 401
+  if (response.status === 401 && !skipAuth) {
+    if (!isRefreshing) {
+      isRefreshing = true;
+      refreshPromise = refreshAccessToken();
+    }
+
+    const newToken = await refreshPromise;
+    isRefreshing = false;
+    refreshPromise = null;
+
+    if (newToken) {
+      headers["Authorization"] = `Bearer ${newToken}`;
+      response = await fetch(url, {
+        ...options,
+        headers,
+      });
+    }
+  }
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
+    // For DRF validation errors, format them nicely
+    if (typeof error === "object" && !error.detail) {
+      const messages = Object.values(error).flat();
+      throw new Error((messages[0] as string) || `API error: ${response.status}`);
+    }
     throw new Error(error.detail || `API error: ${response.status}`);
   }
 
   return response.json();
 }
+
+// =============================================================================
+// AUTH API
+// =============================================================================
+
+export const authApi = {
+  /** Register a new user */
+  register: (data: RegisterFormData) =>
+    apiFetch<AuthResponse>("/auth/register/", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }, true),
+
+  /** Login with email and password */
+  login: (data: LoginFormData) =>
+    apiFetch<AuthResponse>("/auth/login/", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }, true),
+
+  /** Logout (blacklist refresh token) */
+  logout: (refreshToken: string) =>
+    apiFetch<{ message: string }>("/auth/logout/", {
+      method: "POST",
+      body: JSON.stringify({ refresh: refreshToken }),
+    }),
+
+  /** Get current user profile */
+  getProfile: () =>
+    apiFetch<User>("/auth/profile/"),
+
+  /** Update user profile */
+  updateProfile: (data: Partial<User>) =>
+    apiFetch<User>("/auth/profile/", {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    }),
+
+  /** Refresh access token */
+  refreshToken: (refreshToken: string) =>
+    apiFetch<{ access: string; refresh?: string }>("/auth/token/refresh/", {
+      method: "POST",
+      body: JSON.stringify({ refresh: refreshToken }),
+    }, true),
+
+  /** Change password */
+  changePassword: (data: {
+    old_password: string;
+    new_password: string;
+    new_password_confirm: string;
+  }) =>
+    apiFetch<{ message: string }>("/auth/change-password/", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+};
 
 // =============================================================================
 // PRODUCTS API

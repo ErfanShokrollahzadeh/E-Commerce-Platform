@@ -91,6 +91,14 @@
   width: 100%;
 }
 
+/* ─── Right Actions Group ─── */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 /* ─── Cart Button ─── */
 
 .cartButton {
@@ -146,6 +154,186 @@
   }
 }
 
+/* ─── Sign In Button ─── */
+
+.signInBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.15), rgba(99, 102, 241, 0.15));
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  color: #c4b5fd;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.signInBtn:hover {
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.25), rgba(99, 102, 241, 0.25));
+  border-color: rgba(167, 139, 250, 0.4);
+  color: #e8e8f0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(167, 139, 250, 0.15);
+}
+
+.signInBtn svg {
+  color: #a78bfa;
+}
+
+/* ─── User Menu ─── */
+
+.userMenu {
+  position: relative;
+}
+
+.avatarBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px 4px 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #8b8fa3;
+}
+
+.avatarBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(167, 139, 250, 0.2);
+}
+
+.avatarImg {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.avatarInitials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #a78bfa, #6366f1);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* ─── Dropdown ─── */
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 240px;
+  background: rgba(18, 18, 24, 0.95);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 8px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 12px 40px rgba(0, 0, 0, 0.5);
+  animation: dropdownIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 200;
+}
+
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dropdownHeader {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dropdownName {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #f0f0f8;
+}
+
+.dropdownEmail {
+  font-size: 0.7rem;
+  color: #5a5d70;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdownDivider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 4px 0;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  background: none;
+  color: #a0a3b5;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+.dropdownItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e8e8f0;
+}
+
+.dropdownItem svg {
+  color: #5a5d70;
+  transition: color 0.15s;
+}
+
+.dropdownItem:hover svg {
+  color: #a78bfa;
+}
+
+.logoutItem:hover {
+  color: #fca5a5;
+}
+
+.logoutItem:hover svg {
+  color: #ef4444;
+}
+
 /* ─── Responsive ─── */
 
 @media (max-width: 640px) {
@@ -163,5 +351,15 @@
 
   .logoText {
     display: none;
+  }
+
+  .signInBtn span {
+    display: none;
+  }
+
+  .signInBtn {
+    width: 40px;
+    padding: 0;
+    justify-content: center;
   }
 }
