@@ -43,9 +43,10 @@ function formatPrice(price: string): string {
 // ---------------------------------------------------------------------------
 // PRODUCT CARD COMPONENT
 // ---------------------------------------------------------------------------
-function ProductCard({ product }: { product: ProductListItem }) {
+function ProductCard({ product, index }: { product: ProductListItem; index: number }) {
   const imageUrl = product.primary_image?.image ? getImageUrl(product.primary_image.image) : null;
   const hasDiscount = product.discount_price !== null && product.discount_percentage > 0;
+  const isAboveFold = index < 3; // First row of 3 cards is above the fold
 
   return (
     <Link href={`/products/${product.slug}`} className={styles.card} id={`product-${product.id}`}>
@@ -57,6 +58,8 @@ function ProductCard({ product }: { product: ProductListItem }) {
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             className={styles.image}
+            priority={isAboveFold}
+            loading={isAboveFold ? "eager" : "lazy"}
           />
         ) : (
           <div className={styles.imagePlaceholder}>
@@ -128,8 +131,8 @@ export default async function ProductsPage() {
 
       {products.length > 0 ? (
         <div className={styles.grid}>
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {products.map((product, index) => (
+            <ProductCard key={product.id} product={product} index={index} />
           ))}
         </div>
       ) : (
